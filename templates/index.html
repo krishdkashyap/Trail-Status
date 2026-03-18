@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trail Status — NC Mountain Bike Conditions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1>Trail Status</h1>
+            <p class="tagline">Live mountain bike conditions — Piedmont Triad & Charlotte</p>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Status legend -->
+        <div class="legend">
+            <span class="legend-item open">🟢 Open</span>
+            <span class="legend-item caution">🟡 Caution</span>
+            <span class="legend-item closed">🔴 Closed</span>
+            <span class="legend-note">Based on recent rainfall, soil moisture, and drainage</span>
+        </div>
+
+        <!-- Trail cards grid -->
+        <div class="trail-grid">
+
+            {% for trail in trails %}
+            <div class="trail-card {{ trail.color }}">
+
+                <!-- Status badge + difficulty -->
+                <div class="card-top">
+                    <span class="status-badge {{ trail.color }}">
+                        {{ trail.icon }} {{ trail.label }}
+                    </span>
+                    <span class="difficulty">{{ trail.difficulty }}</span>
+                </div>
+
+                <!-- Trail name and location -->
+                <h2 class="trail-name">{{ trail.name }}</h2>
+                <p class="trail-meta">
+                    📍 {{ trail.location }} &nbsp;·&nbsp; {{ trail.length }}
+                </p>
+
+                <!-- Weather data block -->
+                <div class="weather-block">
+                    {% if trail.precip_24h is not none %}
+
+                        <div class="weather-stats">
+                            <div class="stat">
+                                <span class="stat-label">24h Rain</span>
+                                <span class="stat-value">{{ trail.precip_24h }} mm</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">72h Rain</span>
+                                <span class="stat-value">{{ trail.precip_72h }} mm</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Soil</span>
+                                <span class="stat-value">
+                                    {%- if trail.soil_moisture >= 0.40 -%}
+                                        Saturated
+                                    {%- elif trail.soil_moisture >= 0.30 -%}
+                                        Wet
+                                    {%- elif trail.soil_moisture >= 0.20 -%}
+                                        Moist
+                                    {%- else -%}
+                                        Dry
+                                    {%- endif -%}
+                                </span>
+                            </div>
+                        </div>
+
+                        {% if trail.freeze_thaw %}
+                        <div class="freeze-thaw-warning">
+                            ❄️ Freeze / thaw conditions — trail surface may be soft
+                        </div>
+                        {% endif %}
+
+                    {% else %}
+                        <p class="weather-unavailable">⚠️ Weather data unavailable — status estimated from drainage</p>
+                    {% endif %}
+                </div>
+
+                <!-- Trail description -->
+                <p class="trail-description">{{ trail.description }}</p>
+
+                <!-- Soil type and drainage footer -->
+                <div class="card-footer">
+                    <span>🪨 {{ trail.soil }}</span>
+                    <span class="drainage drainage-{{ trail.drainage }}">
+                        Drainage: {{ trail.drainage }}
+                    </span>
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    </main>
+
+    <footer>
+        <p>
+            Weather data from <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
+            &nbsp;·&nbsp;
+            Trail status is an estimate — always use your best judgment before riding
+        </p>
+    </footer>
+
+</body>
+</html>

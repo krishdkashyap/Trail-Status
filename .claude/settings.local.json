@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"from weather import get_trail_weather, calculate_trail_status; print\\(''weather.py imports OK''\\)\")",
+      "Bash(python -c \"from app import app; print\\(''app.py imports OK''\\)\")",
+      "Bash(source venv/bin/activate)",
+      "Bash(python3 -c \"from weather import get_trail_weather, calculate_trail_status; print\\(''weather.py OK''\\)\")",
+      "Bash(python3 -c \"from app import app; print\\(''app.py OK''\\)\")"
+    ]
+  }
+}
