@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Trail Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1>Trail Admin</h1>
+            <p class="tagline">Manage trails in the database</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="admin-bar">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">← Back to Site</a>
+            <a href="{{ url_for('add_trail') }}" class="btn btn-primary">+ Add Trail</a>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Difficulty</th>
+                    <th>Length</th>
+                    <th>Drainage</th>
+                    <th>Lat</th>
+                    <th>Lon</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trail in trails %}
+                <tr>
+                    <td>{{ trail.id }}</td>
+                    <td><strong>{{ trail.name }}</strong></td>
+                    <td>{{ trail.location }}</td>
+                    <td>{{ trail.difficulty }}</td>
+                    <td>{{ trail.length }}</td>
+                    <td>
+                        <span class="drainage drainage-{{ trail.drainage }}">
+                            {{ trail.drainage }}
+                        </span>
+                    </td>
+                    <td>{{ trail.lat }}</td>
+                    <td>{{ trail.lon }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('delete_trail', trail_id=trail.id) }}"
+                              onsubmit="return confirm('Delete {{ trail.name }}?')">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if trails|length == 0 %}
+        <p class="empty-state">No trails in the database yet. <a href="{{ url_for('add_trail') }}">Add one.</a></p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>Trail Status Admin</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+================================================================
+
+
+  TRAIL STATUS — Tools, Libraries & Resources
+
+
+================================================================
+
+
+LANGUAGES
+---------
+Python              https://www.python.org
+HTML/CSS            (built into browsers)
+
+
+FRAMEWORKS & LIBRARIES
+----------------------
+Flask               Web framework — https://flask.palletsprojects.com
+Flask-SQLAlchemy    Database ORM — https://flask-sqlalchemy.palletsprojects.com
+Jinja2              HTML templating (comes with Flask) — https://jinja.palletsprojects.com
+python-dotenv       Loads .env variables — https://pypi.org/project/python-dotenv
+requests            HTTP library for API calls — https://requests.readthedocs.io
+SQLAlchemy          Database toolkit (used by Flask-SQLAlchemy) — https://www.sqlalchemy.org
+typing_extensions   https://pypi.org/project/typing_extensions
+
+
+APIS & DATA SOURCES
+-------------------
+Open-Meteo          Free weather + soil moisture API (no key needed)
+                    https://open-meteo.com
+                    Docs: https://open-meteo.com/en/docs
+                    Data used: precipitation, soil moisture, temperature (freeze/thaw)
+
+
+VERSION CONTROL & HOSTING
+-------------------------
+Git                 Local version control — https://git-scm.com
+GitHub              Remote repo hosting — https://github.com
+Repo                https://github.com/krishdkashyap/Trail-Status
+
+
+DEVELOPMENT ENVIRONMENT
+-----------------------
+Python venv         Isolated Python environment (built into Python)
+pip                 Python package installer (built into Python)
+VS Code             Code editor — https://code.visualstudio.com
+Claude Code         AI coding assistant (VS Code extension + CLI) — https://claude.ai/code
+
+
+VS CODE EXTENSIONS
+------------------
+Python              Syntax highlighting and error detection (Microsoft)
+Pylance             Smarter Python autocomplete (Microsoft)
+GitLens             Inline git history and blame (GitKraken)
+SQLite Viewer       Browse SQLite databases inside VS Code (Florian Klampfer)
+
+
+PLANNED / FUTURE TOOLS
+----------------------
+SQLite              Local database (Phase 1) — Built into Python
+PostgreSQL          Production database (Phase 2+) — https://www.postgresql.org
+Flask-Login         User authentication (Phase 2) — https://flask-login.readthedocs.io
+Render              Cloud hosting/deployment — https://render.com
+scikit-learn        Machine learning library (Phase 4) — https://scikit-learn.org
+pandas              Data analysis (Phase 4) — https://pandas.pydata.org
+
+
+================================================================
+
+
+  Last updated: 2026-03-17
+
+
+================================================================

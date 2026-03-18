@@ -19,4 +19,7 @@ instance/
 *.db
 
 # Editor
-.vscode/settings.json
+.vscode/
+
+# Claude Code local settings
+.claude/
