@@ -1,37 +1,42 @@
 # Trail Status — Project TODO
 
-## Current Session
-- [ ] Install Flask-SQLAlchemy and set up SQLite database
-- [ ] Create `models.py` — Trail database model
-- [ ] Create `seed.py` — migrate hardcoded trails into the database
-- [ ] Update `app.py` — fetch trails from DB instead of hardcoded list
-- [ ] Create `/admin` page — view and add trails without touching code
-- [ ] Auto-update `tools.txt` from `requirements.txt` using a script or agent
+---
+
+## Up Next (Session 3)
+- [ ] Add caching to weather API calls (Flask-Caching)
+- [ ] Phase 3 planning — role-based admin accounts
+- [ ] "Last updated" timestamp on homepage
 
 ---
 
 ## Phase 1 — Weather & Foundation
-- [ ] Add caching to weather API calls (avoid fetching on every page load)
-- [ ] Add a trail detail page (`/trail/<id>`) with full weather breakdown
+- [x] Initialize Git repo and push to GitHub
+- [x] Set up SQLite database (Flask-SQLAlchemy)
+- [x] Live weather integration (Open-Meteo)
+- [x] Trail status logic (precipitation, soil moisture, freeze/thaw, drainage)
+- [x] Trail detail pages with full weather breakdown
+- [ ] Add caching to weather API calls
 - [ ] Add "last updated" timestamp to homepage
-- [ ] Initialize Git repo and push to GitHub ✅
-- [ ] Set up SQLite database ← in progress
 
 ---
 
 ## Phase 2 — User Interaction
-- [ ] User registration and login (Flask-Login)
-- [ ] Trail condition reports (users can post updates)
-- [ ] Comment system on trail reports
+- [x] Admin login with protected routes (Flask-Login)
+- [x] CSRF protection on all forms (Flask-WTF)
+- [x] Trail condition reports — anyone can post
+- [x] Admin can delete reports
+- [x] Trail status override (admin manually sets Open/Caution/Closed)
 - [ ] Upvote/downvote trail reports
+- [ ] Comment system on trail reports
 
 ---
 
 ## Phase 3 — Admin Portal
-- [ ] Admin login with protected routes
-- [ ] Moderate/delete user reports
-- [ ] Add, edit, and remove trails via UI
-- [ ] Trail status override (admin can manually set Open/Closed)
+- [x] Add, edit, and remove trails via UI
+- [x] Access control design (documented in CLAUDE.md)
+- [ ] Role-based admin accounts (superadmin vs trail_admin)
+- [ ] Per-trail permissions — trail admins can only edit their assigned trail
+- [ ] User management page (create/assign/remove admin accounts)
 
 ---
 
@@ -52,9 +57,15 @@
 
 ---
 
+## Automation & Tooling
+- [ ] Auto-update tools.txt when new tools are added (script or agent)
+- [ ] Scheduled end-of-session report (auto-appends to PROGRESS.md)
+
+---
+
 ## General / Resume Polish
 - [ ] Mobile-friendly UI improvements
-- [ ] Add trail map (leaflet.js or Google Maps embed)
+- [ ] Add trail map (Leaflet.js or Google Maps embed)
 - [ ] Deploy to Render or Railway
 - [ ] Custom domain name
 - [ ] Add README.md with project description and screenshots
