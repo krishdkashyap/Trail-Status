@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit {{ trail.name }} — Trail Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1>Edit Trail</h1>
+            <p class="tagline">{{ trail.name }}</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="admin-bar">
+            <a href="{{ url_for('admin') }}" class="btn btn-secondary">← Back to Admin</a>
+        </div>
+
+        <form method="POST" class="trail-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="name">Trail Name</label>
+                <input type="text" id="name" name="name" required value="{{ trail.name }}">
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required value="{{ trail.location }}">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty" name="difficulty" required>
+                        {% for opt in ["Beginner", "Intermediate", "Intermediate / Advanced", "Advanced", "Advanced / Expert", "Expert"] %}
+                        <option value="{{ opt }}" {% if trail.difficulty == opt %}selected{% endif %}>{{ opt }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="length">Length</label>
+                    <input type="text" id="length" name="length" required value="{{ trail.length }}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="drainage">Drainage</label>
+                    <select id="drainage" name="drainage" required>
+                        {% for opt in ["good", "moderate", "poor"] %}
+                        <option value="{{ opt }}" {% if trail.drainage == opt %}selected{% endif %}>{{ opt | capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="soil">Soil Type</label>
+                    <input type="text" id="soil" name="soil" required value="{{ trail.soil }}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="lat">Center Latitude</label>
+                    <input type="number" id="lat" name="lat" required step="0.0001" value="{{ trail.lat }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="lon">Center Longitude</label>
+                    <input type="number" id="lon" name="lon" required step="0.0001" value="{{ trail.lon }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Short Description</label>
+                <textarea id="description" name="description" required rows="3">{{ trail.description }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="long_description">Full Description</label>
+                <textarea id="long_description" name="long_description" rows="6"
+                          placeholder="Detailed trail description shown on the trail detail page...">{{ trail.long_description or '' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+
+        </form>
+    </main>
+
+    <footer>
+        <p>Trail Status Admin</p>
+    </footer>
+
+</body>
+</html>

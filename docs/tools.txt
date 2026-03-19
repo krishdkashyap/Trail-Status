@@ -16,12 +16,15 @@ HTML/CSS            (built into browsers)
 FRAMEWORKS & LIBRARIES
 ----------------------
 Flask               Web framework — https://flask.palletsprojects.com
+Flask-Login         User authentication — https://flask-login.readthedocs.io
 Flask-SQLAlchemy    Database ORM — https://flask-sqlalchemy.palletsprojects.com
+Flask-WTF           Form handling and validation — https://flask-wtf.readthedocs.io
 Jinja2              HTML templating (comes with Flask) — https://jinja.palletsprojects.com
 python-dotenv       Loads .env variables — https://pypi.org/project/python-dotenv
 requests            HTTP library for API calls — https://requests.readthedocs.io
 SQLAlchemy          Database toolkit (used by Flask-SQLAlchemy) — https://www.sqlalchemy.org
 typing_extensions   https://pypi.org/project/typing_extensions
+WTForms             https://pypi.org/project/WTForms
 
 
 APIS & DATA SOURCES
@@ -68,7 +71,7 @@ pandas              Data analysis (Phase 4) — https://pandas.pydata.org
 ================================================================
 
 
-  Last updated: 2026-03-17
+  Last updated: 2026-03-18
 
 
 ================================================================

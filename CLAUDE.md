@@ -30,6 +30,18 @@ Long-term goal: ML-powered predictions + real-time soil moisture sensors at trai
 - Always explain what changed and why after edits
 - Suggest next features proactively
 
+## Access control decisions
+| Feature | Access |
+|---|---|
+| View trail status | Anyone |
+| View trail reports | Anyone |
+| Post a trail report | Anyone (name optional) |
+| Edit/delete reports | Admin only |
+| Add/remove trails | Admin only (login required) |
+| Override trail status | Admin only (login required) |
+
+Login for regular users becomes valuable in Phase 3+ when profiles, saved trails, and report history are added.
+
 ## Tech stack
 - Python / Flask / Jinja2
 - Open-Meteo API (free, no key needed)

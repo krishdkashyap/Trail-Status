@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ trail.name }} — Trail Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="{{ url_for('home') }}" class="back-link">← All Trails</a>
+            <h1>{{ trail.name }}</h1>
+            <p class="tagline">📍 {{ trail.location }}</p>
+        </div>
+    </header>
+
+    <main class="detail-main">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <!-- Top status bar -->
+        <div class="detail-status-bar {{ trail.color }}">
+            <span class="status-badge {{ trail.color }}">{{ trail.icon }} {{ trail.label }}</span>
+            {% if trail.status_override %}
+            <span class="override-badge">📌 Manually set by admin</span>
+            {% endif %}
+            <div class="trail-tags">
+                <span class="difficulty">{{ trail.difficulty }}</span>
+                <span class="tag">{{ trail.length }}</span>
+                <span class="tag">{{ trail.soil }}</span>
+                <span class="drainage drainage-{{ trail.drainage }}">Drainage: {{ trail.drainage }}</span>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+
+            <!-- Left column: description + reports -->
+            <div class="detail-left">
+
+                <!-- Full description -->
+                <div class="detail-card">
+                    <h2>About This Trail</h2>
+                    {% if trail.long_description %}
+                    <p class="long-description">{{ trail.long_description }}</p>
+                    {% else %}
+                    <p class="trail-description">{{ trail.description }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- All community reports -->
+                <div class="detail-card">
+                    <h2>Community Reports
+                        <span class="report-count">{{ reports|length }}</span>
+                    </h2>
+
+                    {% if reports %}
+                        {% for report in reports %}
+                        <div class="report">
+                            <div class="report-header">
+                                <span class="report-condition condition-{{ report.condition }}">
+                                    {{ report.condition }}
+                                </span>
+                                <span class="report-author">{{ report.author }}</span>
+                                <span class="report-date">
+                                    {{ report.created_at.strftime("%b %d, %Y") }}
+                                </span>
+                            </div>
+                            <p class="report-body">{{ report.body }}</p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="empty-state" style="padding: 1rem 0;">No reports yet — be the first to post one.</p>
+                    {% endif %}
+
+                    <!-- Post a report -->
+                    <div class="report-form-section" style="margin-top: 1.25rem;">
+                        <h3 class="reports-title">Post a Report</h3>
+                        <form method="POST" action="{{ url_for('post_report') }}" class="report-form">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="trail_id" value="{{ trail.id }}">
+                            <div class="report-form-row">
+                                <input type="text" name="author" placeholder="Your name (optional)" maxlength="50">
+                                <select name="condition" required>
+                                    <option value="">Condition...</option>
+                                    <option value="dry">Dry</option>
+                                    <option value="muddy">Muddy</option>
+                                    <option value="wet">Wet</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                            <textarea name="body" rows="3" required
+                                      placeholder="What did you see out there?"></textarea>
+                            <button type="submit" class="btn btn-primary">Submit Report</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right column: weather breakdown -->
+            <div class="detail-right">
+
+                <div class="detail-card">
+                    <h2>Weather Conditions</h2>
+
+                    {% if trail.precip_24h is not none %}
+                        <div class="detail-weather-grid">
+                            <div class="detail-stat">
+                                <span class="stat-label">24h Rainfall</span>
+                                <span class="stat-value large">{{ trail.precip_24h }} mm</span>
+                            </div>
+                            <div class="detail-stat">
+                                <span class="stat-label">72h Rainfall</span>
+                                <span class="stat-value large">{{ trail.precip_72h }} mm</span>
+                            </div>
+                            <div class="detail-stat">
+                                <span class="stat-label">Soil Moisture</span>
+                                <span class="stat-value large">
+                                    {%- if trail.soil_moisture >= 0.40 -%}Saturated
+                                    {%- elif trail.soil_moisture >= 0.30 -%}Wet
+                                    {%- elif trail.soil_moisture >= 0.20 -%}Moist
+                                    {%- else -%}Dry{%- endif -%}
+                                </span>
+                                <span class="stat-sub">{{ (trail.soil_moisture * 100)|round(1) }}% volumetric</span>
+                            </div>
+                            <div class="detail-stat">
+                                <span class="stat-label">Freeze / Thaw</span>
+                                <span class="stat-value large">
+                                    {{ "Yes ❄️" if trail.freeze_thaw else "No" }}
+                                </span>
+                            </div>
+                        </div>
+
+                        {% if trail.freeze_thaw %}
+                        <div class="freeze-thaw-warning" style="margin-top: 0.75rem;">
+                            ❄️ Freeze / thaw conditions — trail surface may be soft
+                        </div>
+                        {% endif %}
+
+                    {% else %}
+                        <p class="weather-unavailable">⚠️ Weather data unavailable</p>
+                    {% endif %}
+                </div>
+
+                <!-- Trail facts -->
+                <div class="detail-card">
+                    <h2>Trail Facts</h2>
+                    <table class="facts-table">
+                        <tr>
+                            <td>Difficulty</td>
+                            <td><strong>{{ trail.difficulty }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Length</td>
+                            <td><strong>{{ trail.length }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Soil Type</td>
+                            <td><strong>{{ trail.soil }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Drainage</td>
+                            <td>
+                                <span class="drainage drainage-{{ trail.drainage }}">
+                                    {{ trail.drainage }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Location</td>
+                            <td><strong>{{ trail.location }}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>
+            Weather data from <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
+            &nbsp;·&nbsp;
+            Trail status is an estimate — always use your best judgment before riding
+        </p>
+    </footer>
+
+</body>
+</html>

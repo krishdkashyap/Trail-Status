@@ -11,16 +11,29 @@
     <header>
         <div class="header-inner">
             <h1>Trail Admin</h1>
-            <p class="tagline">Manage trails in the database</p>
+            <p class="tagline">Logged in as {{ current_user.username }}</p>
         </div>
     </header>
 
     <main>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
         <div class="admin-bar">
-            <a href="{{ url_for('home') }}" class="btn btn-secondary">← Back to Site</a>
-            <a href="{{ url_for('add_trail') }}" class="btn btn-primary">+ Add Trail</a>
+            <div>
+                <a href="{{ url_for('home') }}" class="btn btn-secondary">← Back to Site</a>
+                <a href="{{ url_for('add_trail') }}" class="btn btn-primary">+ Add Trail</a>
+            </div>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Log Out</a>
         </div>
 
+        <!-- Trails table -->
+        <h2 style="margin-bottom: 0.75rem;">Trails</h2>
         <table class="admin-table">
             <thead>
                 <tr>
@@ -32,6 +45,7 @@
                     <th>Drainage</th>
                     <th>Lat</th>
                     <th>Lon</th>
+                    <th>Status Override</th>
                     <th></th>
                 </tr>
             </thead>
@@ -44,15 +58,29 @@
                     <td>{{ trail.difficulty }}</td>
                     <td>{{ trail.length }}</td>
                     <td>
-                        <span class="drainage drainage-{{ trail.drainage }}">
-                            {{ trail.drainage }}
-                        </span>
+                        <span class="drainage drainage-{{ trail.drainage }}">{{ trail.drainage }}</span>
                     </td>
                     <td>{{ trail.lat }}</td>
                     <td>{{ trail.lon }}</td>
                     <td>
+                        <form method="POST" action="{{ url_for('set_override', trail_id=trail.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <select name="status_override" onchange="this.form.submit()"
+                                    style="padding: 0.3rem; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem;">
+                                <option value="" {% if not trail.status_override %}selected{% endif %}>
+                                    Auto (weather)
+                                </option>
+                                <option value="open"    {% if trail.status_override == 'open'    %}selected{% endif %}>🟢 Open</option>
+                                <option value="caution" {% if trail.status_override == 'caution' %}selected{% endif %}>🟡 Caution</option>
+                                <option value="closed"  {% if trail.status_override == 'closed'  %}selected{% endif %}>🔴 Closed</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td style="display: flex; gap: 0.5rem;">
+                        <a href="{{ url_for('edit_trail', trail_id=trail.id) }}" class="btn btn-secondary">Edit</a>
                         <form method="POST" action="{{ url_for('delete_trail', trail_id=trail.id) }}"
                               onsubmit="return confirm('Delete {{ trail.name }}?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>
@@ -61,9 +89,47 @@
             </tbody>
         </table>
 
-        {% if trails|length == 0 %}
-        <p class="empty-state">No trails in the database yet. <a href="{{ url_for('add_trail') }}">Add one.</a></p>
+        <!-- Recent reports -->
+        <h2 style="margin: 2rem 0 0.75rem;">Recent Community Reports</h2>
+        {% if reports %}
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Trail</th>
+                    <th>Author</th>
+                    <th>Condition</th>
+                    <th>Report</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td><strong>{{ report.trail.name }}</strong></td>
+                    <td>{{ report.author }}</td>
+                    <td>
+                        <span class="report-condition condition-{{ report.condition }}">
+                            {{ report.condition }}
+                        </span>
+                    </td>
+                    <td>{{ report.body }}</td>
+                    <td>{{ report.created_at.strftime("%b %d, %Y") }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('delete_report', report_id=report.id) }}"
+                              onsubmit="return confirm('Delete this report?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-state">No reports yet.</p>
         {% endif %}
+
     </main>
 
     <footer>

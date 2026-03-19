@@ -201,6 +201,12 @@ main {
     color: var(--text);
 }
 
+.override-badge {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 .freeze-thaw-warning {
     margin-top: 0.6rem;
     font-size: 0.82rem;
@@ -375,9 +381,264 @@ footer a {
     margin: -0.5rem 0 1.25rem;
 }
 
+/* ================================================================
+   Flash messages
+   ================================================================ */
+
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.flash-success { background: var(--green-light);  color: var(--green); }
+.flash-error   { background: var(--red-light);    color: var(--red);   }
+
+/* ================================================================
+   Community reports
+   ================================================================ */
+
+.reports-section {
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+}
+
+.reports-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+}
+
+.report {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.report:last-child { border-bottom: none; }
+
+.report-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.report-condition {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-transform: capitalize;
+}
+
+.condition-dry    { background: var(--green-light);  color: var(--green);  }
+.condition-muddy  { background: var(--orange-light); color: var(--orange); }
+.condition-wet    { background: var(--orange-light); color: var(--orange); }
+.condition-closed { background: var(--red-light);    color: var(--red);    }
+
+.report-author {
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.report-date {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-left: auto;
+}
+
+.report-body {
+    font-size: 0.85rem;
+    color: #444;
+}
+
+/* Report submission form */
+.report-form-section {
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+}
+
+.report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.report-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.report-form input,
+.report-form select,
+.report-form textarea {
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+    width: 100%;
+}
+
+.report-form textarea { resize: vertical; }
+
+/* ================================================================
+   Trail detail page
+   ================================================================ */
+
+.back-link {
+    display: inline-block;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.back-link:hover { color: #fff; }
+
+.detail-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.detail-status-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    border-left: 5px solid transparent;
+}
+
+.detail-status-bar.green  { background: var(--green-light);  border-left-color: var(--green);  }
+.detail-status-bar.orange { background: var(--orange-light); border-left-color: var(--orange); }
+.detail-status-bar.red    { background: var(--red-light);    border-left-color: var(--red);    }
+
+.trail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--surface);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.detail-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+}
+
+.detail-card h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.report-count {
+    font-size: 0.78rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.long-description {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+.detail-weather-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.detail-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.stat-value.large {
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.stat-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.facts-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.facts-table td {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.facts-table tr:last-child td { border-bottom: none; }
+
+.facts-table td:first-child {
+    color: var(--text-muted);
+    width: 40%;
+}
+
+/* Clickable trail name on homepage */
+.trail-name a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.trail-name a:hover {
+    text-decoration: underline;
+}
+
 /* --- Responsive: stack on small screens --- */
 @media (max-width: 600px) {
     header h1 { font-size: 1.5rem; }
     .trail-grid { grid-template-columns: 1fr; }
     .weather-stats { gap: 1rem; }
+    .detail-grid { grid-template-columns: 1fr; }
+    .detail-weather-grid { grid-template-columns: 1fr 1fr; }
 }
